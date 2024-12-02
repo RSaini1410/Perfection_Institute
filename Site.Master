@@ -1,0 +1,66 @@
+﻿<%@ Master Language="VB" AutoEventWireup="true" CodeBehind="Site.master.vb" Inherits="Perfection_Institute.SiteMaster" %>
+
+<!DOCTYPE html>
+<html lang="en">
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%: Page.Title %> - Perfection Institute of Education</title>
+
+    <!-- CSS Bundling -->
+    <asp:PlaceHolder runat="server">
+        <%: Scripts.Render("~/bundles/modernizr") %>
+    </asp:PlaceHolder>
+    <webopt:bundlereference runat="server" path="~/Content/css" />
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+</head>
+<body>
+    <!-- Single Form Tag for Server-Side Controls -->
+    <form id="mainForm" runat="server">
+        <!-- Navigation Bar -->
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
+            <div class="container">
+                <a class="navbar-brand" runat="server" href="~/">PIE (Computer Academy)</a>
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link" runat="server" href="~/">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="http://pieacademy.in.net/pie.html" target="_blank">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="http://pieacademy.in.net/pie-contact.html" target="_blank">Contact</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" runat="server" href="~/Examination">Examination Form</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="container body-content">
+            <asp:ContentPlaceHolder ID="MainContent" runat="server">
+            </asp:ContentPlaceHolder>
+            <hr />
+            <!-- Footer -->
+            <footer>
+                <center>
+                    <p>&copy; <%: DateTime.Now.Year %> - Perfection Institute of Education</p>
+                </center>
+            </footer>
+        </div>
+    </form>
+
+    <!-- JavaScript Bundling -->
+    <asp:PlaceHolder runat="server">
+        <%: Scripts.Render("~/Scripts/bootstrap.js") %>
+    </asp:PlaceHolder>
+</body>
+</html>

@@ -1,0 +1,397 @@
+<%@ Page Title="About" Language="VB" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="About.aspx.vb" Inherits="Perfection_Institute.About" %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfection Institute of Education</title>
+    <style>
+        /* Animated Gradient Background Styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            color: white;
+            background: linear-gradient(45deg, #FF5F6D, #FFC371, #36D1DC, #5B86E5, #8E44AD);
+            background-size: 500% 500%;
+            animation: gradientShift 15s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            25% { background-position: 50% 100%; }
+            50% { background-position: 100% 50%; }
+            75% { background-position: 50% 0%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Logo and Header */
+        .logo-container {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .logo-container img {
+            max-width: 200px;
+            height: auto;
+            border-radius: 50%; /* Circle logo styling */
+        }
+        
+        /* Form Container Styling */
+        .form-container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            color: #333;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .form-container h2 {
+            text-align: center;
+            color: #333;
+        }
+        .form-container h1 {
+            text-align: center;
+            color: #333399;
+        }
+
+        /* Form Fields Styling */
+        .form-field {
+            margin-bottom: 15px;
+        }
+        .form-field label {
+            display: block;
+            font-weight: bold;
+            color: #333;
+        }
+        .form-field input,
+        .form-field select,
+        .form-field textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+        .error-message {
+            color: red;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+
+        /* Button Styling */
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .button-container button {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            margin: 5px;
+        }
+        .button-container button:hover {
+            background-color: #218838;
+            transform: scale(1.05);
+        }
+
+        /* Preview Images */
+        .preview {
+            margin-top: 10px;
+            display: flex;
+            gap: 10px;
+        }
+        .preview img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        /* Age Display Styling */
+        .age-container {
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+</head>
+<body onload="loadAdmissionNumber()">
+    <!-- Logo Section -->
+    <div class="logo-container">
+        <img src="https://piegzb.bsite.net/pie%20logo1.png" alt="Logo">
+    </div>
+
+    <!-- Form Section -->
+    <div class="form-container">
+        <h1><b><u>Perfection Institute of Education</u></b></h1>
+        
+        <h2>Student Examination Form</h2>
+
+        <!-- Admission Number (Read-Only) -->
+        <div class="form-field">
+            <label for="admissionNumber">Application Number</label>
+            <input type="text" id="admissionNumber" name="admissionNumber" readonly>
+        </div>
+
+        <!-- Student Information Fields -->
+        <div class="form-field">
+            <label for="studentName">Student Name</label>
+            <input type="text" id="studentName" name="studentName">
+            <div class="error-message" id="studentNameError"></div>
+        </div>
+
+        <div class="form-field">
+            <label for="fatherName">Father's Name</label>
+            <input type="text" id="fatherName" name="fatherName">
+            <div class="error-message" id="fatherNameError"></div>
+        </div>
+
+        <div class="form-field">
+            <label for="motherName">Mother's Name</label>
+            <input type="text" id="motherName" name="motherName">
+            <div class="error-message" id="motherNameError"></div>
+        </div>
+
+        <div class="form-field">
+            <label for="address">Address</label>
+            <textarea id="address" name="address" rows="3"></textarea>
+            <div class="error-message" id="addressError"></div>
+        </div>
+
+        <div class="form-field">
+            <label for="gender">Gender</label>
+            <select id="gender" name="gender">
+                <option value="">Select</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+            </select>
+            <div class="error-message" id="genderError"></div>
+        </div>
+
+        <div class="form-field">
+            <label for="dob">Date of Birth</label>
+            <input type="date" id="dob" name="dob" onchange="calculateAge()">
+            <div class="age-container" id="ageDisplay"></div>
+            <div class="error-message" id="dobError"></div>
+        </div>
+
+        <div class="form-field">
+            <label for="mobile">Mobile Number</label>
+            <input type="text" id="mobile" name="mobile">
+            <div class="error-message" id="mobileError"></div>
+        </div>
+
+        <div class="form-field">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email">
+            <div class="error-message" id="emailError"></div>
+        </div>
+
+        <div class="form-field">
+            <label for="course">Course</label>
+            <select id="course" name="course">
+                <option value="">Select</option>
+                <option value="Computer Course">Computer Course</option>
+                <option value="English Speaking">English Speaking</option>
+                <option value="Academy">Academy</option>
+                <option value="Coaching">Coaching</option>
+            </select>
+            <div class="error-message" id="courseError"></div>
+        </div>
+
+        <div class="form-field">
+            <label for="courseName">Course Name</label>
+            <input type="text" id="courseName" name="courseName">
+            <div class="error-message" id="courseNameError"></div>
+        </div>
+
+        <!-- Payment Information Section -->
+        <h2>Payment Information</h2>
+        <div class="form-field">
+            <label for="feesAmount">Examination Fees Amount (INR)</label>
+            <input type="number" id="feesAmount" name="feesAmount" placeholder="Enter amount in INR">
+            <div class="error-message" id="feesAmountError"></div>
+        </div>
+
+        <div class="form-field">
+            <label for="transactionRef">Reference/Transaction No./Cash</label>
+            <input type="text" id="transactionRef" name="transactionRef" placeholder="Enter reference or transaction number">
+            <div class="error-message" id="transactionRefError"></div>
+        </div>
+
+        <div class="form-field">
+            <label for="paymentType">Payment Type</label>
+            <select id="paymentType" name="paymentType">
+                <option value="">Select Payment Type</option>
+                <option value="Cash">Cash</option>
+                <option value="PhonePe">PhonePe</option>
+                <option value="Gpay">Gpay</option>
+                <option value="Paytm">Paytm</option>
+                <option value="Bhim">Bhim Pe</option>
+                <option value="Others">Others</option>
+            </select>
+            <div class="error-message" id="paymentTypeError"></div>
+        </div>
+
+        <!-- File Upload Fields with Previews -->
+        <div class="form-field">
+            <label for="paymentScreenshot">Upload Payment Screenshot</label>
+            <input type="file" id="paymentScreenshot" name="paymentScreenshot" accept="image/*" onchange="previewImage(event, 'paymentScreenshotPreview')">
+            <div class="preview" id="paymentScreenshotPreview"></div>
+        </div>
+
+        <div class="form-field">
+            <label for="studentPhoto">Upload Student Photo</label>
+            <input type="file" id="studentPhoto" name="studentPhoto" accept="image/*" onchange="previewImage(event, 'studentPhotoPreview')">
+            <div class="preview" id="studentPhotoPreview"></div>
+        </div>
+
+        <div class="form-field">
+            <label for="aadharCard">Upload Aadhar Card</label>
+            <input type="file" id="aadharCard" name="aadharCard" accept="image/*" onchange="previewImage(event, 'aadharCardPreview')">
+            <div class="preview" id="aadharCardPreview"></div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="button-container">
+            <button type="button" onclick="submitForm()">Submit</button>
+        </div>
+    </div>
+
+    <script>
+        // Generate Admission Number (Randomly)
+        function loadAdmissionNumber() {
+            var admissionNumber = "A" + Math.floor(Math.random() * 100000);
+            document.getElementById("admissionNumber").value = admissionNumber;
+        }
+
+        // Calculate Age based on Date of Birth
+        function calculateAge() {
+            var dob = document.getElementById('dob').value;
+            var birthDate = new Date(dob);
+            var today = new Date();
+            var age = today.getFullYear() - birthDate.getFullYear();
+            var m = today.getMonth() - birthDate.getMonth();
+            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            document.getElementById('ageDisplay').innerText = "Age: " + age + " years";
+        }
+
+        // Preview image on file upload
+        function previewImage(event, previewId) {
+            var reader = new FileReader();
+            reader.onload = function() {
+                var previewContainer = document.getElementById(previewId);
+                previewContainer.innerHTML = '<img src="' + reader.result + '" alt="Image Preview">';
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+
+        // Validate form before submission
+        function submitForm() {
+            var isValid = true;
+            var errorMessage = "";
+
+            // Clear all previous errors
+            var errorElements = document.querySelectorAll(".error-message");
+            errorElements.forEach(function(element) {
+                element.innerHTML = "";
+            });
+
+            // Validate required fields
+            if (document.getElementById("studentName").value.trim() === "") {
+                isValid = false;
+                errorMessage = "Please enter student name.";
+                document.getElementById("studentNameError").innerText = errorMessage;
+            }
+
+            if (document.getElementById("fatherName").value.trim() === "") {
+                isValid = false;
+                errorMessage = "Please enter father's name.";
+                document.getElementById("fatherNameError").innerText = errorMessage;
+            }
+
+            if (document.getElementById("motherName").value.trim() === "") {
+                isValid = false;
+                errorMessage = "Please enter mother's name.";
+                document.getElementById("motherNameError").innerText = errorMessage;
+            }
+
+            if (document.getElementById("address").value.trim() === "") {
+                isValid = false;
+                errorMessage = "Please enter address.";
+                document.getElementById("addressError").innerText = errorMessage;
+            }
+
+            if (document.getElementById("gender").value === "") {
+                isValid = false;
+                errorMessage = "Please select gender.";
+                document.getElementById("genderError").innerText = errorMessage;
+            }
+
+            if (document.getElementById("dob").value === "") {
+                isValid = false;
+                errorMessage = "Please select date of birth.";
+                document.getElementById("dobError").innerText = errorMessage;
+            }
+
+            if (document.getElementById("mobile").value.trim() === "") {
+                isValid = false;
+                errorMessage = "Please enter mobile number.";
+                document.getElementById("mobileError").innerText = errorMessage;
+            }
+
+            if (document.getElementById("email").value.trim() === "") {
+                isValid = false;
+                errorMessage = "Please enter email.";
+                document.getElementById("emailError").innerText = errorMessage;
+            }
+
+            if (document.getElementById("course").value === "") {
+                isValid = false;
+                errorMessage = "Please select course.";
+                document.getElementById("courseError").innerText = errorMessage;
+            }
+
+            if (document.getElementById("courseName").value.trim() === "") {
+                isValid = false;
+                errorMessage = "Please enter course name.";
+                document.getElementById("courseNameError").innerText = errorMessage;
+            }
+
+            if (document.getElementById("feesAmount").value.trim() === "") {
+                isValid = false;
+                errorMessage = "Please enter fees amount.";
+                document.getElementById("feesAmountError").innerText = errorMessage;
+            }
+
+            if (document.getElementById("transactionRef").value.trim() === "") {
+                isValid = false;
+                errorMessage = "Please enter transaction/reference number.";
+                document.getElementById("transactionRefError").innerText = errorMessage;
+            }
+
+            if (document.getElementById("paymentType").value === "") {
+                isValid = false;
+                errorMessage = "Please select payment type.";
+                document.getElementById("paymentTypeError").innerText = errorMessage;
+            }
+
+            if (isValid) {
+                alert("Form submitted successfully!");
+                // Optionally, here you can add code to submit the form to a backend server or save data.
+            } else {
+                alert("Please fix the errors before submitting.");
+            }
+        }
+    </script>
+</body>
+</html>
